@@ -1,0 +1,30 @@
+-- Here is a basic ESP script in Lua:
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local function createESP(character)
+    local billboardGui = Instance.new("BillboardGui")
+    billboardGui.Size = UDim2.new(2, 0, 2, 0)
+    billboardGui.AlwaysOnTop = true
+    billboardGui.Parent = character:WaitForChild("Head")
+
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.Text = character.Name
+    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textLabel.BackgroundTransparency = 1
+    textLabel.Parent = billboardGui
+end
+
+Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(character)
+        createESP(character)
+    end)
+end)
+
+for _, player in ipairs(Players:GetPlayers()) do
+    if player.Character then
+        createESP(player.Character)
+    end
+end
